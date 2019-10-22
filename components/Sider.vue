@@ -9,17 +9,14 @@
             class="fixed overflow-auto left-0 z-1100 h-screen"
         >
             <div class="p-5 text-center">
-                <img
-                    :src="require('~/assets/images/logo_large.png')"
-                    alt="MofE - Trang web nghe nhạc trực tuyến"
-                    class="inline"
-                    style="height: 60px;"
-                />
+                <img src="/images/logo_large.png" alt="MofE - Trang web nghe nhạc trực tuyến" class="inline" style="height: 60px;" />
             </div>
             <AMenu theme="dark" :default-selected-keys="[$route.name]" mode="inline">
                 <AMenuItem key="index">
-                    <AIcon type="pie-chart" />
-                    <span>Trang chủ</span>
+                    <NuxtLink to="/" class="flex items-center">
+                        <AIcon type="pie-chart" />
+                        Trang chủ
+                    </NuxtLink>
                 </AMenuItem>
                 <ASubMenu key="artists">
                     <span slot="title">
@@ -57,18 +54,6 @@
                         <NuxtLink to="/users/create">Thêm người dùng</NuxtLink>
                     </AMenuItem>
                 </ASubMenu>
-                <ASubMenu key="sub2">
-                    <span slot="title">
-                        <AIcon type="team" />
-                        <span>Team</span>
-                    </span>
-                    <AMenuItem key="6">Team 1</AMenuItem>
-                    <AMenuItem key="8">Team 2</AMenuItem>
-                </ASubMenu>
-                <AMenuItem key="9">
-                    <AIcon type="file" />
-                    <span>File</span>
-                </AMenuItem>
             </AMenu>
         </ALayoutSider>
         <div v-if="!syncedCollapsed && ($mq === 'xs' || $mq === 'sm')" class="sidenav-overlay" @click="hideSider"></div>

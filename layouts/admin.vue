@@ -50,7 +50,7 @@ import Sider from '@/components/Sider.vue';
 
 export default {
     name: 'AdminLayout',
-    middleware: 'auth',
+    middleware: 'authenticate',
     components: {
         Sider
     },

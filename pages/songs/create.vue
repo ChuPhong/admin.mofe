@@ -8,7 +8,7 @@
         <ACol :span="24">
             <AForm :form="form" @submit.prevent="submit">
                 <ACol :xs="24" :md="11">
-                    <AFormItem label="Tên hiển thị">
+                    <AFormItem label="Tên bài hát">
                         <AInput
                             v-decorator="[
                                 'name',
@@ -17,6 +17,7 @@
                                         {
                                             required: true,
                                             message: 'Tên bài hát không hợp lệ.',
+                                            min: 2,
                                             max: 100
                                         }
                                     ]
@@ -36,6 +37,7 @@
                                         {
                                             required: false,
                                             message: 'Tên bài hát không hợp lệ.',
+                                            min: 2,
                                             max: 100
                                         }
                                     ]
@@ -102,7 +104,8 @@
                                     rules: [
                                         {
                                             required: true,
-                                            message: 'Bạn không thể tạo bài hát khi không upload bài hát lên server.'
+                                            message: 'Bạn không thể tạo bài hát khi không upload bài hát lên server.',
+                                            max: 255
                                         }
                                     ]
                                 }
@@ -124,7 +127,8 @@
                                     rules: [
                                         {
                                             required: true,
-                                            message: 'Ảnh đại diện của bài hát không được để trống.'
+                                            message: 'Ảnh đại diện của bài hát không được để trống.',
+                                            max: 255
                                         }
                                     ]
                                 }
@@ -146,7 +150,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import Artists from '@/models/artists';
 import UploadSong from '@/components/UploadSong.vue';
 import UploadAvatar from '@/components/UploadAvatar.vue';
 
@@ -161,19 +165,18 @@ export default {
             form: this.$form.createForm(this),
             loading: false,
             imageUrl: null,
-            songUrl: null
+            songUrl: null,
+            allArtists: null
         };
-    },
-    computed: {
-        ...mapGetters('Artist', {
-            allArtists: 'getArtists'
-        })
     },
     mounted() {
         this.getAllArtists();
     },
     methods: {
-        ...mapActions('Artist', ['getAllArtists']),
+        async getAllArtists() {
+            const { data } = await Artists.params({ showall: true }).get();
+            this.allArtists = data;
+        },
         checkArtists(rule, value, callback) {
             if (value && value.length > 3) {
                 // eslint-disable-next-line standard/no-callback-literal

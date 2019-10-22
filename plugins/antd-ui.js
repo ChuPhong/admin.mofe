@@ -20,7 +20,9 @@ import {
     Popconfirm,
     message,
     notification,
-    ConfigProvider
+    ConfigProvider,
+    Card,
+    Statistic
 } from 'ant-design-vue';
 
 Vue.use(Avatar);
@@ -41,6 +43,8 @@ Vue.use(Select);
 Vue.use(Modal);
 Vue.use(Popconfirm);
 Vue.use(ConfigProvider);
+Vue.use(Card);
+Vue.use(Statistic);
 
 Vue.prototype.$message = message;
 Vue.prototype.$notification = notification;

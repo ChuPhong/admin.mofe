@@ -1,7 +1,8 @@
 {
     "name": "admin.mofe",
     "version": "1.17.3",
-    "description": "Quản lý trang web MofE.",
+    "description": "MofE - Dịch vụ nghe nhạc số chất lượng cao, mang đến cho bạn trải nghiệm tuyệt vời.",
+    "keywords": ["MofE", "Nghe nhạc chất lượng cao", "Tải nhạc", "Tìm nhạc"],
     "author": "MofE",
     "private": true,
     "scripts": {
@@ -14,12 +15,13 @@
     "dependencies": {
         "@nuxtjs/auth": "^4.8.4",
         "@nuxtjs/axios": "^5.6.0",
-        "ant-design-vue": "^1.4.0-beta.0",
+        "ant-design-vue": "^1.4.1",
         "lodash.debounce": "^4.0.8",
-        "nuxt": "^2.10.0",
+        "nuxt": "^2.10.1",
         "nuxt-mq": "^2.0.1",
         "vue": "^2.6.10",
         "vue-api-query": "^1.5.1",
+        "vue-fragment": "^1.5.1",
         "vuex": "latest"
     },
     "devDependencies": {

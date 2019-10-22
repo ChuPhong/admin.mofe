@@ -17,8 +17,8 @@
                                         {
                                             required: true,
                                             message: 'Tên không hợp lệ.',
-                                            min: 5,
-                                            max: 255
+                                            min: 8,
+                                            max: 20
                                         }
                                     ]
                                 }
@@ -57,8 +57,7 @@
                                         {
                                             required: true,
                                             message: 'Mật khẩu không hợp lệ.',
-                                            min: 5,
-                                            max: 255
+                                            min: 8
                                         },
                                         {
                                             validator: validateToNextPassword
@@ -81,8 +80,7 @@
                                         {
                                             required: true,
                                             message: 'Mật khẩu không hợp lệ.',
-                                            min: 5,
-                                            max: 255
+                                            min: 8
                                         },
                                         {
                                             validator: compareToFirstPassword
@@ -122,12 +120,13 @@
                     <AFormItem label="Ảnh đại diện">
                         <UploadAvatar
                             v-decorator="[
-                                'thumbnail',
+                                'avatar',
                                 {
                                     initialValue: null,
                                     rules: [
                                         {
-                                            required: false
+                                            required: false,
+                                            max: 255
                                         }
                                     ]
                                 }
@@ -203,7 +202,7 @@ export default {
             this.loading = true;
 
             const a = { name, email, password, password_confirmation, role };
-            if (this.imageUrl) a.thumbnail = this.imageUrl;
+            if (this.imageUrl) a.avatar = this.imageUrl;
 
             this.$axios
                 .post('/users', a)

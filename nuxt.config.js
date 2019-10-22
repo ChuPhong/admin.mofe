@@ -1,5 +1,6 @@
 // const path = require('path');
 import path from 'path';
+import { keywords } from './package';
 
 export default {
     mode: 'spa',
@@ -7,7 +8,10 @@ export default {
      ** Headers of the page
      */
     head: {
-        title: process.env.npm_package_name || '',
+        title: 'MofE - Trang web nghe nhạc trực tuyến',
+        htmlAttrs: {
+            lang: 'vi'
+        },
         meta: [
             {
                 charset: 'utf-8'
@@ -20,6 +24,11 @@ export default {
                 hid: 'description',
                 name: 'description',
                 content: process.env.npm_package_description || ''
+            },
+            {
+                hid: 'keywords',
+                name: 'keywords',
+                content: keywords.join(', ') || ''
             }
         ],
         link: [
@@ -117,7 +126,10 @@ export default {
                     'link-color': '#1DA57A',
                     'border-radius-base': '0',
                     'layout-header-background': '#13181d',
-                    'menu-dark-submenu-bg': '#0b1015'
+                    'menu-dark-submenu-bg': '#0b1015',
+                    'card-radius': '.5rem',
+                    'card-head-padding': '12px',
+                    'statistic-title-font-size': '18px'
                 },
                 javascriptEnabled: true
             }

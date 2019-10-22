@@ -1,36 +1,63 @@
 <template>
-    <ARow>
-        <ACol :span="24" class="text-center">
-            <div class="title">
-                Hello
-            </div>
-            <span class="subtitle">Its Me</span>
+    <ARow :gutter="12" class="statistical">
+        <ACol :xs="24" :md="12" :lg="6">
+            <ACard>
+                <AStatistic title="Tổng bài hát" :value="songs" group-separator="." />
+            </ACard>
+        </ACol>
+        <ACol :xs="24" :md="12" :lg="6">
+            <ACard>
+                <AStatistic title="Tổng ca sĩ" :value="artists" group-separator="." />
+            </ACard>
+        </ACol>
+        <ACol :xs="24" :md="12" :lg="6">
+            <ACard>
+                <AStatistic title="Tổng lượt nghe" :value="views" group-separator="." />
+            </ACard>
+        </ACol>
+        <ACol :xs="24" :md="12" :lg="6">
+            <ACard>
+                <AStatistic title="Tổng thành viên" :value="users" group-separator="." />
+            </ACard>
         </ACol>
     </ARow>
 </template>
 
 <script>
+import Artists from '@/models/artists';
+
 export default {
-    layout: 'admin'
-    // middleware: 'is-admin'
+    layout: 'admin',
+    data() {
+        return {
+            songs: 0,
+            artists: 0,
+            views: 0,
+            users: 0
+        };
+    },
+    async mounted() {
+        const songs = this.$axios.get('songs/info');
+
+        const artists = Artists.select('id')
+            .limit(1)
+            .get();
+
+        const users = this.$axios.get('users');
+
+        const response = await Promise.all([songs, artists, users]);
+        this.songs = response[0].data.data.all_songs;
+        this.views = response[0].data.data.all_views;
+        this.artists = response[1].meta.total;
+        this.users = response[2].data.meta.total;
+    }
 };
 </script>
 
-<style>
-.title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-}
-
-.subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
+<style lang="less">
+.statistical {
+    .mofe-card {
+        margin-bottom: 10px;
+    }
 }
 </style>

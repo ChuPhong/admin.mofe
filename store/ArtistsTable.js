@@ -1,45 +1,29 @@
+import Artists from '@/models/artists';
+
 export const namespaced = true;
 
 export const state = () => ({
     columns: [
         {
             title: 'Ảnh đại diện',
-            key: 'thumbnail',
-            dataIndex: 'song.thumbnail',
-            scopedSlots: { customRender: 'thumbnail' }
+            key: 'avatar',
+            dataIndex: 'avatar',
+            scopedSlots: { customRender: 'avatar' }
         },
         {
-            title: 'Tên bài hát',
+            title: 'Tên ca sĩ',
             key: 'name',
-            dataIndex: 'song.name'
+            dataIndex: 'name'
         },
         {
-            title: 'Tên khác',
-            key: 'otherName',
-            dataIndex: 'song.otherName'
-        },
-        {
-            title: 'Ca sĩ',
-            key: 'artists',
-            dataIndex: 'song.artists',
-            scopedSlots: { customRender: 'artists' }
-        },
-        {
-            title: 'Năm',
-            key: 'year',
-            dataIndex: 'song.year',
-            scopedSlots: { customRender: 'year' }
-        },
-        {
-            title: 'Lượt nghe',
-            key: 'views',
-            dataIndex: 'song.views',
-            scopedSlots: { customRender: 'views' }
+            title: 'Số bài hát',
+            key: 'songs',
+            dataIndex: 'songs_count'
         },
         {
             title: 'Thao tác',
             key: 'actions',
-            dataIndex: 'song',
+            dataIndex: 'id',
             scopedSlots: { customRender: 'actions' }
         }
     ],
@@ -64,22 +48,26 @@ export const mutations = {
 };
 
 export const getters = {
-    getSongsTableColumns: (state) => state.columns,
-    getSongsTableLoading: (state) => state.loading,
-    getSongsTableData: (state) => state.data,
-    getSongsTablePagination: (state) => state.pagination
+    getArtistsTableColumns: (state) => state.columns,
+    getArtistsTableLoading: (state) => state.loading,
+    getArtistsTableData: (state) => state.data,
+    getArtistsTablePagination: (state) => state.pagination
 };
 
 export const actions = {
-    async getSongsData({ commit, state }, page = 1) {
+    async getArtistsData({ commit, state }, page = 1) {
         commit('busy');
 
-        const { data } = await this.$axios.get(`songs?page=${page}`);
+        const { data, meta } = await Artists.select('id', 'name', 'avatar')
+            .page(page)
+            .limit(10)
+            .orderBy('name')
+            .get();
         const pagination = { ...state.pagination };
-        pagination.total = data.meta.total;
+        pagination.total = meta.total;
         pagination.current = pagination.current || 1;
 
-        commit('setData', data.data);
+        commit('setData', data);
         commit('setPagination', pagination);
 
         commit('finish');
@@ -92,19 +80,21 @@ export const actions = {
 
         commit('setPagination', pager);
 
-        await dispatch('getSongsData', pager.current);
+        await dispatch('getArtistsData', pager.current);
 
         commit('finish');
     },
-    async searchSong({ commit, state }, keyword) {
+    async searchArtist({ commit, state }, keyword) {
         commit('busy');
 
-        const { data } = await this.$axios.get('songs?q=' + keyword);
+        const { data, meta } = await Artists.select('id', 'name', 'avatar')
+            .where('name', keyword)
+            .get();
 
         const pagination = { ...state.pagination };
-        pagination.total = data.meta.total;
+        pagination.total = meta.total;
 
-        commit('setData', data.data);
+        commit('setData', data);
         commit('setPagination', pagination);
 
         commit('finish');
